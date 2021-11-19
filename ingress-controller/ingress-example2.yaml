@@ -11,7 +11,7 @@ spec:
             pathType: Prefix
             backend:
               service:
-                name: test
+                name: helloworld-v1
                 port:
                   number: 80
     - host: helloworld-v2.example.com
@@ -21,6 +21,6 @@ spec:
             pathType: Prefix
             backend:
               service:
-                name: test
+                name: helloworld-v2
                 port:
                   number: 80
