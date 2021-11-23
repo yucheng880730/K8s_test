@@ -1,0 +1,54 @@
+# file for Deployment & Service for mongodb
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mongo-deployment
+  # Identifier which should be meaningful and relvant to users
+  labels:
+    app: mongo
+spec:
+  replicas: 1
+  # identify a set of resource
+  selector:
+    matchLabels:
+      app: mongo
+  # blueprint for pod
+  template:
+    metadata:
+      labels:
+        app: mongo ###
+    spec:
+      # define which image will be used
+      containers:
+        - name: mongodb
+          image: mongo:5.0
+          ports:
+            - containerPort: 27017
+          # we need to set: username and password
+          env:
+            - name: MONGO_INITDB_ROOT_USERNAME
+              # reference from secret.yaml
+              valueFrom:
+                secretKeyRef:
+                  name: mongo-secret
+                  key: mongo-user
+            - name: MONGO_INITDB_ROOT_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: mongo-secret
+                  key: mongo-password
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: mongo-service
+spec:
+  #select pods to forward the requests to
+  selector:
+    app: mongo ###
+  ports:
+    - protocol: TCP
+      port: 27017
+      # the port of pods
+      # target port == container port
+      targetPort: 27017

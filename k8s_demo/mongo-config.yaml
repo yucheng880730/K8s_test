@@ -1,0 +1,8 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: mongo-config
+# data attribute we have all key value pairs that we define as external configuration
+# mongo-service is the name of service that we create for mongodb application
+data:
+  mongo-url: mongo-service
