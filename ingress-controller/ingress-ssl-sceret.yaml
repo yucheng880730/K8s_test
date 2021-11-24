@@ -1,3 +1,4 @@
+# 透過此yaml檔，將SSL憑證存入secret物件
 apiVersion: v1
 data:
   tls.crt: base64_encoded_cert
